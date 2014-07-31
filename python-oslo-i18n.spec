@@ -29,13 +29,10 @@ Documentation for the oslo.i18n library.
 
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{upstream_version}
 
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
-
-# make doc build compatible with python-oslo-sphinx RPM
-sed -i 's/oslosphinx/oslo.sphinx/' doc/source/conf.py
 
 %build
 %{__python2} setup.py build
