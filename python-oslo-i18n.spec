@@ -1,11 +1,11 @@
 %global sname oslo.i18n
 
 Name:           python-oslo-i18n
-Version:        0.1.0
-Release:        2%{?dist}
+Version:        0.2.0
+Release:        1%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
-URL:            https://github.com/openstack/oslo.i18n
+URL:            https://github.com/openstack/%{sname}
 Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildRequires:  python2-devel
@@ -64,6 +64,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Thu Aug 21 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.2.0-1
+- update to 0.2.0 release
+
 * Thu Jul 10 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.1.0-2
 - Use correct upstream URL
 
