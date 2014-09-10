@@ -1,7 +1,7 @@
 %global sname oslo.i18n
 
 Name:           python-oslo-i18n
-Version:        0.2.0
+Version:        0.3.0
 Release:        1%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
@@ -64,6 +64,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Wed Sep 10 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.3.0-1
+- update to 0.3.0 release
+
 * Thu Aug 21 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.2.0-1
 - update to 0.2.0 release
 
