@@ -11,8 +11,12 @@ Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{ve
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
+BuildRequires:  python-six
 BuildArch:      noarch
+
 Requires:       python-setuptools
+Requires:       python-six
+Requires:       python-fixtures
 
 %description
 The oslo.i18n library contain utilities for working with internationalization
@@ -56,7 +60,7 @@ rm -fr doc/build/html/.buildinfo
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
-%{python2_sitelib}/oslo
+%{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
 
@@ -66,6 +70,7 @@ rm -fr doc/build/html/.buildinfo
 %changelog
 * Fri Jan 09 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.3.0-1
 - update to 1.3.0 release
+- Added BR: python-six
 
 * Fri Dec 05 2014 Parag Nemade <pnemade AT redhat DOT com> - 1.1.0-1
 - update to 1.1.0 release
