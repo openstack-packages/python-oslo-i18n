@@ -53,7 +53,7 @@ rm -fr doc/build/html/.buildinfo
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
-%{python2_sitelib}/oslo
+%{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
 
