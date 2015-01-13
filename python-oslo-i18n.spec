@@ -8,6 +8,8 @@ License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
 Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{version}.tar.gz
 
+Patch0001: 0001-i18n-setup.cfg-fix.patch
+
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
@@ -31,6 +33,8 @@ Documentation for the oslo.i18n library.
 %prep
 %setup -q -n %{sname}-%{upstream_version}
 
+%patch0001 -p1
+
 # Remove bundled egg-info
 rm -rf %{sname}.egg-info
 
@@ -53,6 +57,7 @@ rm -fr doc/build/html/.buildinfo
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
+%{python2_sitelib}/oslo
 %{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
