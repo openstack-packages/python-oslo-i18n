@@ -1,7 +1,7 @@
 %global sname oslo.i18n
 
 Name:           python-oslo-i18n
-Version:        1.3.0
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
@@ -26,7 +26,7 @@ or library.
 %package doc
 Summary:    Documentation for OpenStack i18n library
 BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
+BuildRequires: python-oslo-sphinx >= 2.3.0
 
 %description doc
 Documentation for the oslo.i18n library.
@@ -34,12 +34,6 @@ Documentation for the oslo.i18n library.
 
 %prep
 %setup -q -n %{sname}-%{version}
-
-# Remove bundled egg-info
-rm -rf %{sname}.egg-info
-
-# make doc build compatible with python-oslo-sphinx RPM
-sed -i 's/oslosphinx/oslo.sphinx/' doc/source/conf.py
 
 %build
 %{__python2} setup.py build
@@ -61,6 +55,7 @@ rm -fr doc/build/html/.buildinfo
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
 %{python2_sitelib}/oslo_i18n
+%{python2_sitelib}/oslo
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
 
@@ -68,6 +63,9 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Tue Feb 24 2015 Alan Pevec <alan.pevec@redhat.com> 1.4.0-1
+- Update to upstream 1.4.0
+
 * Fri Jan 09 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.3.0-1
 - update to 1.3.0 release
 - Added BR: python-six
