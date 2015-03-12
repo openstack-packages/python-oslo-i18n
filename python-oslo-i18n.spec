@@ -2,8 +2,8 @@
 
 Name:           python-oslo-i18n
 Version:        1.5.0
-Release:        2%{?dist}
-Summary:        OpenStack i18n library
+Release:        3%{?dist}
+Summary:        OpenStack i18n Python 2 library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
 Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{version}.tar.gz
@@ -27,8 +27,27 @@ The oslo.i18n library contain utilities for working with internationalization
 (i18n) features, especially translation for text strings in an application
 or library.
 
+%package -n python3-oslo-i18n
+Summary:        OpenStack i18n Python 3 library
+License:        ASL 2.0
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-pbr
+BuildRequires:  python3-six
+BuildArch:      noarch
+
+Requires:       python3-setuptools
+Requires:       python3-six
+Requires:       python3-fixtures
+
+%description -n python3-oslo-i18n
+The oslo.i18n library contain utilities for working with internationalization
+(i18n) features, especially translation for text strings in an application
+or library.
+
 %package doc
 Summary:    Documentation for OpenStack i18n library
+#TODO: In future we want to switch using python3
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx >= 2.3.0
 
@@ -38,9 +57,13 @@ Documentation for the oslo.i18n library.
 
 %prep
 %setup -q -n %{sname}-%{version}
+cp -a . %{py3dir}
 
 %build
 %{__python2} setup.py build
+pushd %{py3dir}
+%{__python3} setup.py build
+popd
 
 %install
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
@@ -59,6 +82,10 @@ rm -fr doc/build/html/.buildinfo
 # Fix this rpmlint warning
 sed -i "s|\r||g" doc/build/html/_static/jquery.js
 
+pushd %{py3dir}
+%{__python3} setup.py install -O1 --skip-build --root=%{buildroot}
+popd
+
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
 %license LICENSE
@@ -67,10 +94,21 @@ sed -i "s|\r||g" doc/build/html/_static/jquery.js
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
 
+%files -n python3-oslo-i18n
+%doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
+%license LICENSE
+%{python3_sitelib}/oslo_i18n
+%{python3_sitelib}/oslo
+%{python3_sitelib}/*.egg-info
+%{python3_sitelib}/*.pth
+
 %files doc
 %doc doc/build/html
 
 %changelog
+* Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-3
+- Add python3 subpackage
+
 * Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-2
 - Add missing buildtime and runtime dependencies
 - fix rpmlint warning message
