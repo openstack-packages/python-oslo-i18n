@@ -1,7 +1,7 @@
 %global sname oslo.i18n
 
 Name:           python-oslo-i18n
-Version:        1.4.0
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
@@ -42,7 +42,7 @@ Documentation for the oslo.i18n library.
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Delete tests
-rm -fr %{buildroot}%{python_sitelib}/tests
+rm -fr %{buildroot}%{python2_sitelib}/tests
 
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 pushd doc
@@ -51,9 +51,12 @@ popd
 
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.buildinfo
+echo $?
+#iconv --from=ISO-8859-1 --to=UTF-8 %{buildroot}%{_docdir}/build/html/objects.inv
 
 %files
-%doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
+%doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
+%license LICENSE
 %{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/oslo
 %{python2_sitelib}/*.egg-info
@@ -63,6 +66,10 @@ rm -fr doc/build/html/.buildinfo
 %doc doc/build/html
 
 %changelog
+* Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-1
+- update to 1.5.0 release
+- use %%license macro for license file
+
 * Tue Feb 24 2015 Alan Pevec <alan.pevec@redhat.com> 1.4.0-1
 - Update to upstream 1.4.0
 
