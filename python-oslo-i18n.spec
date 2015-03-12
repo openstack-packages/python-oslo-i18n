@@ -2,7 +2,7 @@
 
 Name:           python-oslo-i18n
 Version:        1.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
@@ -11,10 +11,14 @@ Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{ve
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
+BuildRequires:  python-babel
 BuildRequires:  python-six
+BuildRequires:  python-fixtures
+
 BuildArch:      noarch
 
 Requires:       python-setuptools
+Requires:       python-babel
 Requires:       python-six
 Requires:       python-fixtures
 
@@ -51,8 +55,9 @@ popd
 
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.buildinfo
-echo $?
-#iconv --from=ISO-8859-1 --to=UTF-8 %{buildroot}%{_docdir}/build/html/objects.inv
+
+# Fix this rpmlint warning
+sed -i "s|\r||g" doc/build/html/_static/jquery.js
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
@@ -66,6 +71,10 @@ echo $?
 %doc doc/build/html
 
 %changelog
+* Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-2
+- Add missing buildtime and runtime dependencies
+- fix rpmlint warning message
+
 * Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-1
 - update to 1.5.0 release
 - use %%license macro for license file
