@@ -1,5 +1,9 @@
 %global sname oslo.i18n
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:           python-oslo-i18n
 Version:        1.5.0
 Release:        3%{?dist}
@@ -27,6 +31,7 @@ The oslo.i18n library contain utilities for working with internationalization
 (i18n) features, especially translation for text strings in an application
 or library.
 
+%if 0%{?with_python3}
 %package -n python3-oslo-i18n
 Summary:        OpenStack i18n Python 3 library
 License:        ASL 2.0
@@ -44,6 +49,7 @@ Requires:       python3-fixtures
 The oslo.i18n library contain utilities for working with internationalization
 (i18n) features, especially translation for text strings in an application
 or library.
+%endif
 
 %package doc
 Summary:    Documentation for OpenStack i18n library
@@ -57,13 +63,17 @@ Documentation for the oslo.i18n library.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%if 0%{?with_python3}
 cp -a . %{py3dir}
+%endif
 
 %build
 %{__python2} setup.py build
+%if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py build
 popd
+%endif
 
 %install
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
@@ -82,9 +92,11 @@ rm -fr doc/build/html/.buildinfo
 # Fix this rpmlint warning
 sed -i "s|\r||g" doc/build/html/_static/jquery.js
 
+%if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install -O1 --skip-build --root=%{buildroot}
 popd
+%endif
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
@@ -94,6 +106,7 @@ popd
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/*.pth
 
+%if 0%{?with_python3}
 %files -n python3-oslo-i18n
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
 %license LICENSE
@@ -101,6 +114,7 @@ popd
 %{python3_sitelib}/oslo
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/*.pth
+%endif
 
 %files doc
 %doc doc/build/html
