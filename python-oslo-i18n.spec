@@ -6,7 +6,7 @@
 
 Name:           python-oslo-i18n
 Version:        1.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenStack i18n Python 2 library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
@@ -120,6 +120,9 @@ popd
 %doc doc/build/html
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 1.5.0-3
 - Add python3 subpackage
 
