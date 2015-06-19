@@ -2,7 +2,7 @@
 
 Name:           python-oslo-i18n
 Version:        XXX
-Release:        XXX{?dist}
+Release:        XXX
 Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
@@ -41,7 +41,7 @@ rm -rf %{sname}.egg-info
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Delete tests
-rm -fr %{buildroot}%{python_sitelib}/tests
+rm -fr %{buildroot}%{python2_sitelib}/tests
 
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 pushd doc
@@ -53,29 +53,11 @@ rm -fr doc/build/html/.buildinfo
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst LICENSE PKG-INFO README.rst
-%{python2_sitelib}/oslo
 %{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/*.egg-info
-%{python2_sitelib}/*.pth
+
 
 %files doc
 %doc doc/build/html
 
 %changelog
-* Fri Sep 19 2014 Parag Nemade <pnemade AT redhat DOT com> - 1.0.0-1
-- update to 1.0.0 release
-
-* Thu Sep 18 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.4.0-1
-- update to 0.4.0 release
-
-* Wed Sep 10 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.3.0-1
-- update to 0.3.0 release
-
-* Thu Aug 21 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.2.0-1
-- update to 0.2.0 release
-
-* Thu Jul 10 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.1.0-2
-- Use correct upstream URL
-
-* Thu Jul 3 2014 Parag Nemade <pnemade AT redhat DOT com> - 0.1.0-1
-- Initial release
