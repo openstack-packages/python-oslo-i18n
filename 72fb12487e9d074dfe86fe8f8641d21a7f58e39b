@@ -1,0 +1,7 @@
+Code-Review+2: Javier Peña <jpena@redhat.com>
+Verified+1: Alan Pevec <alan.pevec@redhat.com>
+Submitted-by: Alan Pevec <alan.pevec@redhat.com>
+Submitted-at: Mon, 22 Jun 2015 18:54:25 +0200
+Reviewed-on: https://review.gerrithub.io/237038
+Project: openstack-packages/python-oslo-i18n
+Branch: refs/heads/rpm-master
