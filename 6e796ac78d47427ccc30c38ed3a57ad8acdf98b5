@@ -1,0 +1,7 @@
+Code-Review+2: Gaël Chamoulaud <gchamoul@redhat.com>
+Verified+1: Gaël Chamoulaud <gchamoul@redhat.com>
+Submitted-by: Gaël Chamoulaud <gchamoul@redhat.com>
+Submitted-at: Tue, 23 Jun 2015 10:35:27 +0200
+Reviewed-on: https://review.gerrithub.io/237306
+Project: openstack-packages/python-oslo-i18n
+Branch: refs/heads/rpm-kilo
