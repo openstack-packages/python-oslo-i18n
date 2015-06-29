@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-oslo-i18n
-Version:        1.5.0
-Release:        4%{?dist}
+Version:        2.0.0
+Release:        1%{?dist}
 Summary:        OpenStack i18n Python 2 library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{sname}
@@ -102,24 +102,23 @@ popd
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
 %license LICENSE
 %{python2_sitelib}/oslo_i18n
-%{python2_sitelib}/oslo
 %{python2_sitelib}/*.egg-info
-%{python2_sitelib}/*.pth
 
 %if 0%{?with_python3}
 %files -n python3-oslo-i18n
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
 %license LICENSE
 %{python3_sitelib}/oslo_i18n
-%{python3_sitelib}/oslo
 %{python3_sitelib}/*.egg-info
-%{python3_sitelib}/*.pth
 %endif
 
 %files doc
 %doc doc/build/html
 
 %changelog
+* Mon Jun 29 2015 Alan Pevec <alan.pevec@redhat.com> 2.0.0-1
+- Update to upstream 2.0.0
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.5.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
