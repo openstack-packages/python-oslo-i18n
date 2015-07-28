@@ -5,7 +5,7 @@
 %endif
 
 Name:           python-oslo-i18n
-Version:        2.1.0
+Version:        2.2.0
 Release:        1%{?dist}
 Summary:        OpenStack i18n Python 2 library
 License:        ASL 2.0
@@ -116,6 +116,9 @@ popd
 %doc doc/build/html
 
 %changelog
+* Tue Jul 28 2015 Parag Nemade <pnemade@redhat.com> 2.2.0-1
+- Update to upstream 2.2.0
+
 * Wed Jul 22 2015 Parag Nemade <pnemade@redhat.com> 2.1.0-1
 - Update to upstream 2.1.0
 
