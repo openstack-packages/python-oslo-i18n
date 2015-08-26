@@ -1,16 +1,16 @@
-%global sname oslo.i18n
+%global pypi_name oslo.i18n
 
 %if 0%{?fedora}
 %global with_python3 1
 %endif
 
 Name:           python-oslo-i18n
-Version:        2.4.0
+Version:        2.5.0
 Release:        1%{?dist}
 Summary:        OpenStack i18n Python 2 library
 License:        ASL 2.0
-URL:            https://github.com/openstack/%{sname}
-Source0:        https://pypi.python.org/packages/source/o/%{sname}/%{sname}-%{version}.tar.gz
+URL:            https://github.com/openstack/%{pypi_name}
+Source0:        https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
@@ -34,7 +34,6 @@ or library.
 %if 0%{?with_python3}
 %package -n python3-oslo-i18n
 Summary:        OpenStack i18n Python 3 library
-License:        ASL 2.0
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
@@ -53,50 +52,81 @@ or library.
 
 %package doc
 Summary:    Documentation for OpenStack i18n library
-#TODO: In future we want to switch using python3
 BuildRequires: python-sphinx
 BuildRequires: python-oslo-sphinx >= 2.3.0
 
 %description doc
 Documentation for the oslo.i18n library.
 
-
-%prep
-%setup -q -n %{sname}-%{version}
 %if 0%{?with_python3}
-cp -a . %{py3dir}
+%package -n python3-%{pypi_name}-doc
+Summary:    Documentation for ostestr module
+BuildRequires:  python3-sphinx
+BuildRequires:  python3-oslo-sphinx
+
+%description -n python3-%{pypi_name}-doc
+Documentation for ostestr module
 %endif
 
-%build
-%{__python2} setup.py build
+%prep
+%setup -qc
+mv %{pypi_name}-%{version} python2
+
+pushd python2
+rm -rf *.egg-info
+
+# Let RPM handle the dependencies
+rm -f test-requirements.txt requirements.txt
+
+cp -p LICENSE ChangeLog CONTRIBUTING.rst PKG-INFO README.rst ../
+popd
+
 %if 0%{?with_python3}
-pushd %{py3dir}
+cp -a python2 python3
+find python3 -name '*.py' | xargs sed -i 's|^#!/usr/bin/env python2|#!%{__python3}|'
+%endif
+
+find python2 -name '*.py' | xargs sed -i 's|^#!/usr/bin/env python2|#!%{__python2}|'
+
+%build
+pushd python2
+%{__python2} setup.py build
+popd
+%if 0%{?with_python3}
+pushd python3
 %{__python3} setup.py build
 popd
 %endif
 
 %install
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
+%if 0%{?with_python3}
+pushd python3
+%{__python3} setup.py install --skip-build --root %{buildroot}
+export PYTHONPATH="$( pwd ):$PYTHONPATH"
+pushd doc
+sphinx-build-3 -b html -d build/doctrees   source build/html
 
-# Delete tests
-rm -fr %{buildroot}%{python2_sitelib}/tests
+# Fix hidden-file-or-dir warnings
+rm -fr build/html/.buildinfo
 
+# Fix this rpmlint warning
+sed -i "s|\r||g" build/html/_static/jquery.js
+popd
+popd
+%endif
+
+pushd python2
+%{__python2} setup.py install --skip-build --root %{buildroot}
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 pushd doc
 sphinx-build -b html -d build/doctrees   source build/html
-popd
-
 # Fix hidden-file-or-dir warnings
-rm -fr doc/build/html/.buildinfo
+rm -fr build/html/.buildinfo
 
 # Fix this rpmlint warning
-sed -i "s|\r||g" doc/build/html/_static/jquery.js
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root=%{buildroot}
+sed -i "s|\r||g" build/html/_static/jquery.js
 popd
-%endif
+popd
 
 %files
 %doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
@@ -115,7 +145,15 @@ popd
 %files doc
 %doc doc/build/html
 
+%if 0%{?with_python3}
+%files -n python3-%{pypi_name}-doc
+%doc python3/doc/build/html
+%endif
+
 %changelog
+* Wed Aug 26 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-1
+- Update to upstream 2.5.0
+
 * Wed Aug 05 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.4.0-1
 - Update to upstream 2.4.0
 
