@@ -37,10 +37,14 @@ Summary:        OpenStack i18n Python 3 library
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
+BuildRequires:  python3-babel
 BuildRequires:  python3-six
+BuildRequires:  python3-fixtures
+
 BuildArch:      noarch
 
 Requires:       python3-setuptools
+Requires:       python3-babel
 Requires:       python3-six
 Requires:       python3-fixtures
 
@@ -59,13 +63,13 @@ BuildRequires: python-oslo-sphinx >= 2.3.0
 Documentation for the oslo.i18n library.
 
 %if 0%{?with_python3}
-%package -n python3-%{pypi_name}-doc
-Summary:    Documentation for ostestr module
+%package -n python3-oslo-i18n-doc
+Summary:    Documentation for OpenStack i18n library
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-oslo-sphinx
 
-%description -n python3-%{pypi_name}-doc
-Documentation for ostestr module
+%description -n python3-oslo-i18n-doc
+Documentation for the oslo.i18n library.
 %endif
 
 %prep
@@ -83,10 +87,10 @@ popd
 
 %if 0%{?with_python3}
 cp -a python2 python3
-find python3 -name '*.py' | xargs sed -i 's|^#!/usr/bin/env python2|#!%{__python3}|'
+find python3 -name '*.py' | xargs sed -i 's|^#!python|#!%{__python3}|'
 %endif
 
-find python2 -name '*.py' | xargs sed -i 's|^#!/usr/bin/env python2|#!%{__python2}|'
+find python2 -name '*.py' | xargs sed -i 's|^#!python|#!%{__python2}|'
 
 %build
 pushd python2
@@ -129,30 +133,36 @@ popd
 popd
 
 %files
-%doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
+%doc ChangeLog CONTRIBUTING.rst PKG-INFO README.rst
 %license LICENSE
 %{python2_sitelib}/oslo_i18n
 %{python2_sitelib}/*.egg-info
 
 %if 0%{?with_python3}
 %files -n python3-oslo-i18n
-%doc AUTHORS ChangeLog CONTRIBUTING.rst HACKING.rst PKG-INFO README.rst
+%doc ChangeLog CONTRIBUTING.rst PKG-INFO README.rst
 %license LICENSE
 %{python3_sitelib}/oslo_i18n
 %{python3_sitelib}/*.egg-info
 %endif
 
 %files doc
-%doc doc/build/html
+%license LICENSE
+%doc python2/doc/build/html
 
 %if 0%{?with_python3}
-%files -n python3-%{pypi_name}-doc
+%files -n python3-oslo-i18n-doc
+%license LICENSE
 %doc python3/doc/build/html
 %endif
 
 %changelog
 * Wed Aug 26 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-1
 - Update to upstream 2.5.0
+- fix %%docs file list
+- Add missing BuildRequires: python3-babel, python3-fixtures
+- fix python shebang using sed
+- Add python3-oslo-i18n-doc
 
 * Wed Aug 05 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.4.0-1
 - Update to upstream 2.4.0
