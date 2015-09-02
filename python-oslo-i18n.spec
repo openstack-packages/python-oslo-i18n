@@ -1,3 +1,4 @@
+%{!?_licensedir:%global license %%doc}
 %global pypi_name oslo.i18n
 
 %if 0%{?fedora}
@@ -6,12 +7,22 @@
 
 Name:           python-oslo-i18n
 Version:        2.5.0
-Release:        1%{?dist}
-Summary:        OpenStack i18n Python 2 library
+Release:        2%{?dist}
+Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{pypi_name}
 Source0:        https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 
+BuildArch:      noarch
+
+%description
+The oslo.i18n library contain utilities for working with internationalization
+(i18n) features, especially translation for text strings in an application
+or library.
+
+%package -n python2-oslo-i18n
+Summary:        OpenStack i18n Python 2 library
+%{?python_provide:%python_provide python2-oslo-i18n}
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
@@ -26,7 +37,9 @@ Requires:       python-babel
 Requires:       python-six
 Requires:       python-fixtures
 
-%description
+Obsoletes:      python-oslo-i18n < 2.5.0-2
+
+%description -n python2-oslo-i18n
 The oslo.i18n library contain utilities for working with internationalization
 (i18n) features, especially translation for text strings in an application
 or library.
@@ -34,6 +47,7 @@ or library.
 %if 0%{?with_python3}
 %package -n python3-oslo-i18n
 Summary:        OpenStack i18n Python 3 library
+%{?python_provide:%python_provide python3-oslo-i18n}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
@@ -54,12 +68,12 @@ The oslo.i18n library contain utilities for working with internationalization
 or library.
 %endif
 
-%package doc
+%package -n python2-oslo-i18n-doc
 Summary:    Documentation for OpenStack i18n library
 BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx >= 2.3.0
+BuildRequires: python-oslo-sphinx
 
-%description doc
+%description -n python2-oslo-i18n-doc
 Documentation for the oslo.i18n library.
 
 %if 0%{?with_python3}
@@ -85,12 +99,12 @@ rm -f test-requirements.txt requirements.txt
 cp -p LICENSE ChangeLog CONTRIBUTING.rst PKG-INFO README.rst ../
 popd
 
+find python2 -name '*.py' | xargs sed -i 's|^#!python|#!%{__python2}|'
+
 %if 0%{?with_python3}
 cp -a python2 python3
 find python3 -name '*.py' | xargs sed -i 's|^#!python|#!%{__python3}|'
 %endif
-
-find python2 -name '*.py' | xargs sed -i 's|^#!python|#!%{__python2}|'
 
 %build
 pushd python2
@@ -103,6 +117,19 @@ popd
 %endif
 
 %install
+pushd python2
+%{__python2} setup.py install --skip-build --root %{buildroot}
+export PYTHONPATH="$( pwd ):$PYTHONPATH"
+pushd doc
+sphinx-build -b html -d build/doctrees   source build/html
+# Fix hidden-file-or-dir warnings
+rm -fr build/html/.buildinfo
+
+# Fix this rpmlint warning
+sed -i "s|\r||g" build/html/_static/jquery.js
+popd
+popd
+
 %if 0%{?with_python3}
 pushd python3
 %{__python3} setup.py install --skip-build --root %{buildroot}
@@ -119,20 +146,7 @@ popd
 popd
 %endif
 
-pushd python2
-%{__python2} setup.py install --skip-build --root %{buildroot}
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-pushd doc
-sphinx-build -b html -d build/doctrees   source build/html
-# Fix hidden-file-or-dir warnings
-rm -fr build/html/.buildinfo
-
-# Fix this rpmlint warning
-sed -i "s|\r||g" build/html/_static/jquery.js
-popd
-popd
-
-%files
+%files -n python2-oslo-i18n
 %doc ChangeLog CONTRIBUTING.rst PKG-INFO README.rst
 %license LICENSE
 %{python2_sitelib}/oslo_i18n
@@ -146,7 +160,7 @@ popd
 %{python3_sitelib}/*.egg-info
 %endif
 
-%files doc
+%files -n python2-oslo-i18n-doc
 %license LICENSE
 %doc python2/doc/build/html
 
@@ -157,6 +171,9 @@ popd
 %endif
 
 %changelog
+* Wed Sep 02 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-2
+- Try to follow some new snippets from Python guidelines
+
 * Wed Aug 26 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-1
 - Update to upstream 2.5.0
 - fix %%docs file list
