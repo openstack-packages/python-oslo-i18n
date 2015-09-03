@@ -7,7 +7,7 @@
 
 Name:           python-oslo-i18n
 Version:        2.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{pypi_name}
@@ -23,6 +23,9 @@ or library.
 %package -n python2-oslo-i18n
 Summary:        OpenStack i18n Python 2 library
 %{?python_provide:%python_provide python2-oslo-i18n}
+# FIXME python_provide does not exist in CBS Cloud buildroot
+# TODO remove when rdo-rpm-macros is available
+Provides:       python-oslo-i18n = %{version}
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-pbr
