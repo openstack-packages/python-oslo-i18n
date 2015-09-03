@@ -7,7 +7,7 @@
 
 Name:           python-oslo-i18n
 Version:        2.5.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{pypi_name}
@@ -29,8 +29,6 @@ BuildRequires:  python-pbr
 BuildRequires:  python-babel
 BuildRequires:  python-six
 BuildRequires:  python-fixtures
-
-BuildArch:      noarch
 
 Requires:       python-setuptools
 Requires:       python-babel
@@ -55,8 +53,6 @@ BuildRequires:  python3-babel
 BuildRequires:  python3-six
 BuildRequires:  python3-fixtures
 
-BuildArch:      noarch
-
 Requires:       python3-setuptools
 Requires:       python3-babel
 Requires:       python3-six
@@ -69,16 +65,18 @@ or library.
 %endif
 
 %package -n python2-oslo-i18n-doc
-Summary:    Documentation for OpenStack i18n library
-BuildRequires: python-sphinx
-BuildRequires: python-oslo-sphinx
+Summary:        Documentation for OpenStack i18n library
+BuildRequires:  python-sphinx
+BuildRequires:  python-oslo-sphinx
+
+Obsoletes:      python-oslo-i18n-doc < 2.5.0-2
 
 %description -n python2-oslo-i18n-doc
 Documentation for the oslo.i18n library.
 
 %if 0%{?with_python3}
 %package -n python3-oslo-i18n-doc
-Summary:    Documentation for OpenStack i18n library
+Summary:        Documentation for OpenStack i18n library
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-oslo-sphinx
 
@@ -171,6 +169,9 @@ popd
 %endif
 
 %changelog
+* Thu Sep 03 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-3
+- Also Obsolete python-oslo-i18n-doc package
+
 * Wed Sep 02 2015 Parag Nemade <pnemade AT redhat DOT com> - 2.5.0-2
 - Try to follow some new snippets from Python guidelines
 
