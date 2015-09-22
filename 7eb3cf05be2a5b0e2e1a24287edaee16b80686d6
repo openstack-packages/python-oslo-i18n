@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_b5ffab66",
+        "filename": "python-oslo-i18n.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000935
+      },
+      "writtenOn": "2015-09-22T20:26:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure about providing \nChangeLog CONTRIBUTING.rst PKG-INFO\nas %doc",
+      "revId": "7eb3cf05be2a5b0e2e1a24287edaee16b80686d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
