@@ -4,9 +4,11 @@
 %global with_python3 1
 %endif
 
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+
 Name:           python-oslo-i18n
-Version:        XXX
-Release:        XXX
+Version:        3.4.0
+Release:        1%{?dist}
 Summary:        OpenStack i18n library
 License:        ASL 2.0
 URL:            https://github.com/openstack/%{pypi_name}
@@ -175,3 +177,6 @@ popd
 %endif
 
 %changelog
+* Tue Mar 22 2016 Haikel Guemar <hguemar@fedoraproject.org> 3.4.0-
+- Update to 3.4.0
+
